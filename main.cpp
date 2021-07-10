@@ -21,7 +21,7 @@ void drawBoard(string board[3][3])
 void playerPrompt(string board[3][3], string player)
 {
     string character;
-    string position;
+    int position;
     bool waitingForChar = true;
     bool waitingForPosition = true;
     while (waitingForChar)
@@ -46,16 +46,22 @@ void playerPrompt(string board[3][3], string player)
             {
                 if (board[row][column] == "X" || board[row][column] == "O")
                 {
-                    sampleRowText += " ";
+                    sampleRowText += " X ";
                 }
                 else
                 {
-                    sampleRowText += to_string(((row * row) + column - 1));
-                    //Pick up from here and figure out the mathematical formula that will relate the rows and columns to the corresponding 1-9 integers
+                    sampleRowText += to_string((3 * (row - 1)) + column);
                 };
             };
+            sampleRowText += "\n ----------\n";
+            sampleBoardText += sampleRowText;
         };
-    }
+        cout << sampleBoardText << endl;
+        cin >> position;
+        if (typeid(position).name() == "string" && position >= 0 && position <= 9) {
+            //Continue
+        };
+     }
 }
 
 int main()
