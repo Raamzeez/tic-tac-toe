@@ -124,7 +124,7 @@ rowColData relateNumToPos(int inputNumber)
 playerResponse playerPrompt(string board[3][3], int player)
 {
     string character;
-    int position;
+    int numberPosition;
     bool waitingForChar = true;
     bool waitingForPosition = true;
     while (waitingForChar)
@@ -149,19 +149,27 @@ playerResponse playerPrompt(string board[3][3], int player)
             {
                 if (board[row][column] == "X" || board[row][column] == "O")
                 {
-                    sampleRowText += " - ";
+                    sampleRowText += "| - ";
                 }
                 else
                 {
-                    sampleRowText += to_string(relatePosToNum(row, column));
+                    const string numberText = to_string(relatePosToNum(row + 1, column + 1));
+                    sampleRowText += "| " + numberText + " ";
                 };
             };
             sampleRowText += "\n ----------\n";
             sampleBoardText += sampleRowText;
         };
         cout << sampleBoardText << endl;
-        cin >> position;
-        if (position >= 0 && position <= 9)
+        cin >> numberPosition;
+        int row = relateNumToPos(numberPosition).row;
+        int column = relateNumToPos(numberPosition).column;
+        if (board[row][column] == "X" || board[row][column] == "O")
+        {
+            cout << "That spot is occupied. Please try again. " << endl;
+            continue;
+        };
+        if (numberPosition >= 0 && numberPosition <= 9)
         {
             waitingForPosition = false;
             break;
@@ -174,7 +182,7 @@ playerResponse playerPrompt(string board[3][3], int player)
     }
     playerResponse data;
     data.character = character;
-    data.position = position;
+    data.position = numberPosition;
     return data;
 };
 
