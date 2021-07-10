@@ -32,28 +32,74 @@ void drawBoard(string board[3][3])
     cout << boardText << endl;
 };
 
-int relateNumToPos(int row, int column)
+int relatePosToNum(int row, int column)
 {
     return (3 * (row - 1) + column);
+    // 1 <-- 1 | 1
+    // 2 <-- 1 | 2
+    // 3 <-- 1 | 3
+    // 4 <-- 2 | 1
+    // 5 <-- 2 | 2
+    // 6 <-- 2 | 3
+    // 7 <-- 3 | 1
+    // 8 <-- 3 | 2
+    // 9 <-- 3 | 3
 };
 
-rowColData relatePosToNum(int inputNumber)
+rowColData relateNumToPos(int inputNumber)
 {
-    const int row = 0;
-    const int column = 0;
+    int row = 0;
+    int column = 0;
     rowColData rowAndColumn;
+    if (inputNumber == 1)
+    {
+        row = 1;
+        column = 1;
+    };
+    if (inputNumber == 2)
+    {
+        row = 1;
+        column = 2;
+    }
+    if (inputNumber == 3)
+    {
+        row = 1;
+        column = 3;
+    }
+    if (inputNumber == 4)
+    {
+        row = 2;
+        column = 1;
+    }
+    if (inputNumber == 5)
+    {
+        row = 2;
+        column = 2;
+    }
+    if (inputNumber == 6)
+    {
+        row = 2;
+        column = 3;
+    }
+    if (inputNumber == 7)
+    {
+        row = 3;
+        column = 1;
+    }
+    if (inputNumber == 8)
+    {
+        row = 3;
+        column = 2;
+    }
+    if (inputNumber == 9)
+    {
+        row = 3;
+        column = 3;
+    }
     rowAndColumn.row = row;
     rowAndColumn.column = column;
     return rowAndColumn;
-    // 1 --> 1 | 1
-    // 2 --> 1 | 2
-    // 3 --> 1 | 3
-    // 4 --> 2 | 1
-    // 5 --> 2 | 2
-    // 6 --> 2 | 3
-    // 7 --> 3 | 1
-    // 8 --> 3 | 2
-    // 9 --> 3 | 3
+    //Note: This must be improved by removing all the if statements and coming up with a simple equation. Unfortunately, I do not know the mathematical formula right now, so this will have to do for the sake of the game functioning.
 }
 
 playerResponse playerPrompt(string board[3][3], int player)
@@ -88,7 +134,7 @@ playerResponse playerPrompt(string board[3][3], int player)
                 }
                 else
                 {
-                    sampleRowText += to_string(relateNumToPos(row, column));
+                    sampleRowText += to_string(relatePosToNum(row, column));
                 };
             };
             sampleRowText += "\n ----------\n";
@@ -116,7 +162,7 @@ playerResponse playerPrompt(string board[3][3], int player)
 int main()
 {
 
-    string board[3][3] = {{" ", " ", " "}, {"O", "O", "X"}, {"X", "O", "O"}};
+    string board[3][3] = {{" ", " ", " "}, {" ", " ", " "}, {" ", " ", " "}};
     bool gameRunning = true;
     bool playerOneTurn = true;
     bool playerTwoTurn = false;
@@ -125,6 +171,9 @@ int main()
     {
         drawBoard(board);
         playerResponse response = playerPrompt(board, 1);
-        int boardPosition = response.position;
+        rowColData rowAndColumn = relateNumToPos(response.position);
+        const int boardRow = rowAndColumn.row;
+        const int boardColumn = rowAndColumn.column;
+        board[boardRow - 1][boardColumn - 1] = response.character;
     };
 }
