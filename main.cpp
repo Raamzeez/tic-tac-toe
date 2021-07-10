@@ -16,6 +16,34 @@ public:
     int column;
 };
 
+bool success(string board[3][3], rowColData updatedPosition, int updatedBoardNumber)
+{
+    int updatedRow = updatedPosition.row;
+    int updatedColumn = updatedPosition.column;
+    string currentChar = board[updatedRow - 1][updatedColumn - 1];
+    // int top = updatedBoardNumber - 3;
+    // if (top >= 0 && top <= 9)
+    // {
+    // };
+    // int topRight = updatedBoardNumber - 2;
+    // if (topRight >= 0 && topRight <= 9)
+    // {
+    // };
+    // int right = updatedBoardNumber + 1;
+    // if (right >= 0 && right <= 9)
+    // {
+    // };
+    // int bottomLeft = updatedBoardNumber + 4;
+    // if (bottomLeft >= 0 && bottomLeft <= 9)
+    // {
+    // };
+    // int bottom = updatedBoardNumber + 3;
+    // if (bottom >= 0 && bottom <= 9)
+    // {
+    // };
+    return false;
+}
+
 void drawBoard(string board[3][3])
 {
     string boardText = "\n";
@@ -35,15 +63,6 @@ void drawBoard(string board[3][3])
 int relatePosToNum(int row, int column)
 {
     return (3 * (row - 1) + column);
-    // 1 <-- 1 | 1
-    // 2 <-- 1 | 2
-    // 3 <-- 1 | 3
-    // 4 <-- 2 | 1
-    // 5 <-- 2 | 2
-    // 6 <-- 2 | 3
-    // 7 <-- 3 | 1
-    // 8 <-- 3 | 2
-    // 9 <-- 3 | 3
 };
 
 rowColData relateNumToPos(int inputNumber)
@@ -175,5 +194,14 @@ int main()
         const int boardRow = rowAndColumn.row;
         const int boardColumn = rowAndColumn.column;
         board[boardRow - 1][boardColumn - 1] = response.character;
+        if (!success(board, rowAndColumn, response.position))
+        {
+            continue;
+        }
+        else
+        {
+            cout << "Congratulations! You won the game!" << endl;
+            break;
+        }
     };
 }
