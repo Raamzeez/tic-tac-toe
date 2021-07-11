@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cmath>
 
-
 using namespace std;
 
 class playerResponse
@@ -18,31 +17,13 @@ public:
     int column;
 };
 
-bool success(string board[3][3], rowColData updatedPosition, int updatedBoardNumber)
+bool validateInput(int input)
 {
-    int updatedRow = updatedPosition.row;
-    int updatedColumn = updatedPosition.column;
-    string currentChar = board[updatedRow - 1][updatedColumn - 1];
-    // int top = updatedBoardNumber - 3;
-    // if (top >= 0 && top <= 9)
-    // {
-    // };
-    // int topRight = updatedBoardNumber - 2;
-    // if (topRight >= 0 && topRight <= 9)
-    // {
-    // };
-    // int right = updatedBoardNumber + 1;
-    // if (right >= 0 && right <= 9)
-    // {
-    // };
-    // int bottomLeft = updatedBoardNumber + 4;
-    // if (bottomLeft >= 0 && bottomLeft <= 9)
-    // {
-    // };
-    // int bottom = updatedBoardNumber + 3;
-    // if (bottom >= 0 && bottom <= 9)
-    // {
-    // };
+    if (input >= 0 && input <= 9)
+    {
+        return true;
+    };
+    cout << "Your input was invalid. Please try again." << endl;
     return false;
 }
 
@@ -77,6 +58,75 @@ rowColData relateNumToPos(int inputNumber)
     rowAndColumn.row = row;
     rowAndColumn.column = column;
     return rowAndColumn;
+}
+
+bool validateChar(string board[3][3], int firstPosNumber, int secondPosNumber, bool repeat, string expectedChar)
+{
+    rowColData newPosition = relateNumToPos(firstPosNumber);
+    string newChar = board[newPosition.row][newPosition.column];
+    if (expectedChar == newChar)
+    {
+        if (repeat == false)
+        {
+            validateChar(board, firstPosNumber, secondPosNumber, true, expectedChar);
+        }
+        else
+        {
+            return true;
+        }
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool success(string board[3][3], rowColData updatedPosition, int updatedBoardNumber)
+{
+    int updatedRow = updatedPosition.row;
+    int updatedColumn = updatedPosition.column;
+    string currentChar = board[updatedRow - 1][updatedColumn - 1];
+    int top = updatedBoardNumber - 3;
+    if (validateInput(top) && validateChar(board, top, top - 3, false, currentChar))
+    {
+        return true;
+    }
+    int topRight = updatedBoardNumber - 2;
+    if (validateInput(topRight) && validateChar(board, topRight, topRight - 2, false, currentChar))
+    {
+        return true;
+    }
+    int right = updatedBoardNumber + 1;
+    if (validateInput(right) && validateChar(board, right, right + 1, false, currentChar))
+    {
+        return true;
+    }
+    int bottomRight = updatedBoardNumber + 4;
+    if (validateInput(bottomRight) && validateChar(board, bottomRight, bottomRight + 4, false, currentChar))
+    {
+        return true;
+    }
+    int bottom = updatedBoardNumber + 3;
+    if (validateInput(bottom) && validateChar(board, bottom, bottom + 3, false, currentChar))
+    {
+        return true;
+    }
+    int bottomLeft = updatedBoardNumber + 2;
+    if (validateInput(bottomLeft) && validateChar(board, bottomLeft, bottomLeft + 2, false, currentChar))
+    {
+        return true;
+    }
+    int left = updatedBoardNumber - 1;
+    if (validateInput(left) && validateChar(board, left, left - 1, false, currentChar))
+    {
+        return true;
+    }
+    int topLeft = updatedBoardNumber - 4;
+    if (validateInput(topLeft) && validateChar(board, topLeft, topLeft + 3, false, currentChar))
+    {
+        return true;
+    }
+    return false;
 }
 
 playerResponse playerPrompt(string board[3][3], int player)
@@ -127,6 +177,8 @@ playerResponse playerPrompt(string board[3][3], int player)
             cout << "That spot is occupied. Please try again. " << endl;
             continue;
         };
+        cout << numberPosition << endl;
+        cout << typeid(numberPosition).name() << endl;
         if (numberPosition >= 0 && numberPosition <= 9)
         {
             waitingForPosition = false;
@@ -166,7 +218,7 @@ int main()
         }
         else
         {
-            cout << "Congratulations! You won the game!" << endl;
+            cout << "The game is complete. Thanks for playing!" << endl;
             break;
         }
     };
