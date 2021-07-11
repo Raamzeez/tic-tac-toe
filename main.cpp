@@ -22,9 +22,12 @@ bool validateInput(int input)
     if (input >= 0 && input <= 9)
     {
         return true;
-    };
-    cout << "Your input was invalid. Please try again." << endl;
-    return false;
+    }
+    else
+    {
+        cout << "Your input " << input << " was invalid. Please try again." << endl;
+        return false;
+    }
 }
 
 void drawBoard(string board[3][3])
@@ -212,14 +215,11 @@ int main()
         const int boardRow = rowAndColumn.row;
         const int boardColumn = rowAndColumn.column;
         board[boardRow - 1][boardColumn - 1] = response.character;
-        if (!success(board, rowAndColumn, response.position))
-        {
-            continue;
-        }
-        else
+        if (success(board, rowAndColumn, response.position))
         {
             cout << "The game is complete. Thanks for playing!" << endl;
-            break;
+            return 0;
         }
+        continue;
     };
 }
