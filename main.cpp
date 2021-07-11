@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cmath>
+
 
 using namespace std;
 
@@ -70,55 +72,11 @@ rowColData relateNumToPos(int inputNumber)
     int row = 0;
     int column = 0;
     rowColData rowAndColumn;
-    if (inputNumber == 1)
-    {
-        row = 1;
-        column = 1;
-    };
-    if (inputNumber == 2)
-    {
-        row = 1;
-        column = 2;
-    }
-    if (inputNumber == 3)
-    {
-        row = 1;
-        column = 3;
-    }
-    if (inputNumber == 4)
-    {
-        row = 2;
-        column = 1;
-    }
-    if (inputNumber == 5)
-    {
-        row = 2;
-        column = 2;
-    }
-    if (inputNumber == 6)
-    {
-        row = 2;
-        column = 3;
-    }
-    if (inputNumber == 7)
-    {
-        row = 3;
-        column = 1;
-    }
-    if (inputNumber == 8)
-    {
-        row = 3;
-        column = 2;
-    }
-    if (inputNumber == 9)
-    {
-        row = 3;
-        column = 3;
-    }
+    row = floor(inputNumber / 3);
+    column = inputNumber - (3 * (row - 1));
     rowAndColumn.row = row;
     rowAndColumn.column = column;
     return rowAndColumn;
-    //Note: This must be improved by removing all the if statements and coming up with a simple equation. Unfortunately, I do not know the mathematical formula right now, so this will have to do for the sake of the game functioning.
 }
 
 playerResponse playerPrompt(string board[3][3], int player)
