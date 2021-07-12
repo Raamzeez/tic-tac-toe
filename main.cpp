@@ -244,11 +244,19 @@ int main()
 
         if (numOfCharacters(board) >= 3)
         {
-
-            if (success(board, rowAndColumn, response.position))
+            for (int row = 0; row < 3; row++)
             {
-                cout << "The game is complete. Thanks for playing!" << endl;
-                return 0;
+                for (int column = 0; column < 3; column++)
+                {
+                    rowColData rowAndColumn;
+                    rowAndColumn.row = row;
+                    rowAndColumn.column = column;
+                    if (success(board, rowAndColumn, response.position))
+                    {
+                        cout << "The game is complete. Thanks for playing!" << endl;
+                        return 0;
+                    }
+                }
             }
         }
         continue;
