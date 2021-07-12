@@ -83,10 +83,6 @@ bool validateChar(string board[3][3], int firstPosNumber, int secondPosNumber, b
 {
     rowColData newPosition = relateNumToPos(repeat ? secondPosNumber : firstPosNumber);
     string newChar = board[newPosition.row - 1][newPosition.column - 1];
-    cout << "firstPosNumber " << firstPosNumber << endl;
-    cout << "secondPosNumber " << secondPosNumber << endl;
-    cout << "expectedChar " << expectedChar << endl;
-    cout << "newChar " << newChar << endl;
     if (expectedChar == newChar)
     {
         if (repeat == false)
@@ -95,7 +91,6 @@ bool validateChar(string board[3][3], int firstPosNumber, int secondPosNumber, b
         }
         else
         {
-            cout << "3 characters in a row found in validateChar()" << endl;
             return true;
         }
     }
@@ -112,19 +107,13 @@ bool success(string board[3][3], rowColData updatedPosition, int updatedBoardNum
     int updatedColumn = updatedPosition.column;
     string currentChar = board[updatedRow - 1][updatedColumn - 1];
     int top = updatedBoardNumber - 3;
-    // cout << "updatedRow " << updatedRow << endl;
-    // cout << "updatedColumn " << updatedColumn << endl;
-    // cout << "firstPosNumber from success() " << top << endl;
-    // cout << "validateChar(board, top, top - 3, false, currentChar) " << validateChar(board, top, top - 3, false, currentChar) << endl;
     if (validateChar(board, top, top - 3, false, currentChar))
     {
-        // cout << "success() returns true" << endl;
         return true;
     }
     int topRight = updatedBoardNumber - 2;
     if (validateInput(topRight) && validateChar(board, topRight, topRight - 2, false, currentChar))
     {
-        // cout << "3 in a row!" << endl;
         return true;
     }
     int right = updatedBoardNumber + 1;
