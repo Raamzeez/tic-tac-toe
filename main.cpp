@@ -157,7 +157,7 @@ playerResponse playerPrompt(string board[3][3], int player)
     bool waitingForPosition = true;
     while (waitingForChar)
     {
-        cout << "Type either the character X or O (capitalized)" << endl;
+        cout << ((player == 1) ? "PLAYER 1 TURN: " : "PLAYER 2 TURN: ") << "Type either the character X or O (capitalized)" << endl;
         cin >> character;
         if (character == "X" || character == "O")
         {
@@ -220,12 +220,11 @@ int main()
     string board[3][3] = {{" ", " ", " "}, {" ", " ", " "}, {" ", " ", " "}};
     bool gameRunning = true;
     bool playerOneTurn = true;
-    bool playerTwoTurn = false;
 
     while (gameRunning)
     {
         drawBoard(board);
-        playerResponse response = playerPrompt(board, 1);
+        playerResponse response = playerPrompt(board, playerOneTurn ? 1 : 2);
         rowColData rowAndColumn = relateNumToPos(response.position);
         const int boardRow = rowAndColumn.row;
         const int boardColumn = rowAndColumn.column;
@@ -248,6 +247,7 @@ int main()
                 }
             }
         }
+        playerOneTurn = !playerOneTurn;
         continue;
     };
 }
