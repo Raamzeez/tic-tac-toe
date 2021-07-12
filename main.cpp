@@ -84,14 +84,14 @@ bool validateChar(string board[3][3], int firstPosNumber, int secondPosNumber, b
     rowColData newPosition = relateNumToPos(repeat ? secondPosNumber : firstPosNumber);
     string newChar = board[newPosition.row - 1][newPosition.column - 1];
     cout << "firstPosNumber " << firstPosNumber << endl;
-    cout << "firstPosNumber " << firstPosNumber << endl;
+    cout << "secondPosNumber " << secondPosNumber << endl;
     cout << "expectedChar " << expectedChar << endl;
     cout << "newChar " << newChar << endl;
     if (expectedChar == newChar)
     {
         if (repeat == false)
         {
-            validateChar(board, firstPosNumber, secondPosNumber, true, expectedChar);
+            return validateChar(board, firstPosNumber, secondPosNumber, true, expectedChar);
         }
         else
         {
@@ -112,51 +112,51 @@ bool success(string board[3][3], rowColData updatedPosition, int updatedBoardNum
     int updatedColumn = updatedPosition.column;
     string currentChar = board[updatedRow - 1][updatedColumn - 1];
     int top = updatedBoardNumber - 3;
-    cout << "updatedRow " << updatedRow << endl;
-    cout << "updatedColumn " << updatedColumn << endl;
-    cout << "firstPosNumber from success() " << top << endl;
-    cout << "validateChar(board, top, top - 3, false, currentChar) " << validateChar(board, top, top - 3, false, currentChar) << endl;
+    // cout << "updatedRow " << updatedRow << endl;
+    // cout << "updatedColumn " << updatedColumn << endl;
+    // cout << "firstPosNumber from success() " << top << endl;
+    // cout << "validateChar(board, top, top - 3, false, currentChar) " << validateChar(board, top, top - 3, false, currentChar) << endl;
     if (validateChar(board, top, top - 3, false, currentChar))
     {
-        cout << "success() returns true" << endl;
+        // cout << "success() returns true" << endl;
         return true;
     }
-    // int topRight = updatedBoardNumber - 2;
-    // if (validateInput(topRight) && validateChar(board, topRight, topRight - 2, false, currentChar))
-    // {
-    //     cout << "3 in a row!" << endl;
-    //     return true;
-    // }
-    // int right = updatedBoardNumber + 1;
-    // if (validateInput(right) && validateChar(board, right, right + 1, false, currentChar))
-    // {
-    //     return true;
-    // }
-    // int bottomRight = updatedBoardNumber + 4;
-    // if (validateInput(bottomRight) && validateChar(board, bottomRight, bottomRight + 4, false, currentChar))
-    // {
-    //     return true;
-    // }
-    // int bottom = updatedBoardNumber + 3;
-    // if (validateInput(bottom) && validateChar(board, bottom, bottom + 3, false, currentChar))
-    // {
-    //     return true;
-    // }
-    // int bottomLeft = updatedBoardNumber + 2;
-    // if (validateInput(bottomLeft) && validateChar(board, bottomLeft, bottomLeft + 2, false, currentChar))
-    // {
-    //     return true;
-    // }
-    // int left = updatedBoardNumber - 1;
-    // if (validateInput(left) && validateChar(board, left, left - 1, false, currentChar))
-    // {
-    //     return true;
-    // }
-    // int topLeft = updatedBoardNumber - 4;
-    // if (validateInput(topLeft) && validateChar(board, topLeft, topLeft + 3, false, currentChar))
-    // {
-    //     return true;
-    // }
+    int topRight = updatedBoardNumber - 2;
+    if (validateInput(topRight) && validateChar(board, topRight, topRight - 2, false, currentChar))
+    {
+        // cout << "3 in a row!" << endl;
+        return true;
+    }
+    int right = updatedBoardNumber + 1;
+    if (validateInput(right) && validateChar(board, right, right + 1, false, currentChar))
+    {
+        return true;
+    }
+    int bottomRight = updatedBoardNumber + 4;
+    if (validateInput(bottomRight) && validateChar(board, bottomRight, bottomRight + 4, false, currentChar))
+    {
+        return true;
+    }
+    int bottom = updatedBoardNumber + 3;
+    if (validateInput(bottom) && validateChar(board, bottom, bottom + 3, false, currentChar))
+    {
+        return true;
+    }
+    int bottomLeft = updatedBoardNumber + 2;
+    if (validateInput(bottomLeft) && validateChar(board, bottomLeft, bottomLeft + 2, false, currentChar))
+    {
+        return true;
+    }
+    int left = updatedBoardNumber - 1;
+    if (validateInput(left) && validateChar(board, left, left - 1, false, currentChar))
+    {
+        return true;
+    }
+    int topLeft = updatedBoardNumber - 4;
+    if (validateInput(topLeft) && validateChar(board, topLeft, topLeft + 3, false, currentChar))
+    {
+        return true;
+    }
     return false;
 }
 
@@ -203,7 +203,7 @@ playerResponse playerPrompt(string board[3][3], int player)
         cin >> numberPosition;
         int row = relateNumToPos(numberPosition).row;
         int column = relateNumToPos(numberPosition).column;
-        if (board[row][column] == "X" || board[row][column] == "O")
+        if (board[row - 1][column - 1] == "X" || board[row - 1][column - 1] == "O")
         {
             cout << "That spot is occupied. Please try again. " << endl;
             continue;
