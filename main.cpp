@@ -67,6 +67,8 @@ bool validateChar(string board[3][3], int firstPosNumber, int secondPosNumber, b
 {
     rowColData newPosition = relateNumToPos(firstPosNumber);
     string newChar = board[newPosition.row][newPosition.column];
+    cout << "expectedChar " << expectedChar << endl;
+    cout << "newChar " << newChar << endl;
     if (expectedChar == newChar)
     {
         if (repeat == false)
@@ -75,6 +77,7 @@ bool validateChar(string board[3][3], int firstPosNumber, int secondPosNumber, b
         }
         else
         {
+            cout << "3 characters in a row found in validateChar()";
             return true;
         }
     }
@@ -86,17 +89,21 @@ bool validateChar(string board[3][3], int firstPosNumber, int secondPosNumber, b
 
 bool success(string board[3][3], rowColData updatedPosition, int updatedBoardNumber)
 {
+    //Run when there are only 3 characters on the board
     int updatedRow = updatedPosition.row;
     int updatedColumn = updatedPosition.column;
     string currentChar = board[updatedRow - 1][updatedColumn - 1];
     int top = updatedBoardNumber - 3;
-    if (validateInput(top) && validateChar(board, top, top - 3, false, currentChar))
+    cout << "validateChar(board, top, top - 3, false, currentChar) " << validateChar(board, top, top - 3, false, currentChar) << endl;
+    if (validateChar(board, top, top - 3, false, currentChar))
     {
+        cout << "success() returns true" << endl;
         return true;
     }
     int topRight = updatedBoardNumber - 2;
     if (validateInput(topRight) && validateChar(board, topRight, topRight - 2, false, currentChar))
     {
+        cout << "3 in a row!" << endl;
         return true;
     }
     int right = updatedBoardNumber + 1;
