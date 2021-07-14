@@ -89,15 +89,13 @@ bool validateChar(string board[3][3], int firstPosNumber, int secondPosNumber, b
 {
     rowColData newPosition = relateNumToPos(repeat ? secondPosNumber : firstPosNumber);
     string newChar = board[newPosition.row - 1][newPosition.column - 1];
-    cout << "expectedChar " << expectedChar << endl;
-    cout << "newChar " << newChar << endl;
     if (expectedChar == "X" || expectedChar == "O" && newChar == "X" || newChar == "O")
     {
         if (expectedChar == newChar)
         {
             if (repeat == false)
             {
-                return validateChar(board, firstPosNumber, secondPosNumber, true, expectedChar);
+                return validateChar(board, firstPosNumber, secondPosNumber, true, newChar);
             }
             else
             {
@@ -277,7 +275,8 @@ int main()
                     rowAndColumn.column = column;
                     if (success(board, rowAndColumn, response.position))
                     {
-                        cout << "The game is complete. Thanks for playing!" << endl;
+                        drawBoard(board);
+                        cout << "PLAYER " << (playerOneTurn ? "1" : "2") << " WON THE GAME! Thanks for playing!" << endl;
                         return 0;
                     }
                 }
