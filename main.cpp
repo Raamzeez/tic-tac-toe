@@ -3,6 +3,13 @@
 
 using namespace std;
 
+class playersSetup
+{
+public:
+    string playerOneSymbol;
+    string playerTwoSymbol;
+};
+
 class playerResponse
 {
 public:
@@ -41,7 +48,6 @@ bool validateInput(int input)
     }
     else
     {
-        cout << "Your input " << input << " was invalid. Please try again." << endl;
         return false;
     }
 }
@@ -83,15 +89,24 @@ bool validateChar(string board[3][3], int firstPosNumber, int secondPosNumber, b
 {
     rowColData newPosition = relateNumToPos(repeat ? secondPosNumber : firstPosNumber);
     string newChar = board[newPosition.row - 1][newPosition.column - 1];
-    if (expectedChar == newChar)
+    cout << "expectedChar " << expectedChar << endl;
+    cout << "newChar " << newChar << endl;
+    if (expectedChar == "X" || expectedChar == "O" && newChar == "X" || newChar == "O")
     {
-        if (repeat == false)
+        if (expectedChar == newChar)
         {
-            return validateChar(board, firstPosNumber, secondPosNumber, true, expectedChar);
+            if (repeat == false)
+            {
+                return validateChar(board, firstPosNumber, secondPosNumber, true, expectedChar);
+            }
+            else
+            {
+                return true;
+            }
         }
         else
         {
-            return true;
+            return false;
         }
     }
     else
@@ -147,28 +162,48 @@ bool success(string board[3][3], rowColData updatedPosition, int updatedBoardNum
         return true;
     }
     return false;
+};
+
+playersSetup gameSetup()
+{
+    bool waitingForFirstSymbol = true;
+    string playerOneSymbol;
+    string playerTwoSymbol;
+
+    while (waitingForFirstSymbol)
+    {
+        cout << "What symbol will player 1 use? (X or O)" << endl;
+        cin >> playerOneSymbol;
+        if (playerOneSymbol == "X" || playerOneSymbol == "O")
+        {
+            waitingForFirstSymbol = false;
+        }
+        else
+        {
+            cout << "You type an incorrect symbol. Please try again." << endl;
+            continue;
+        }
+    }
+    playerTwoSymbol = playerOneSymbol == "X" ? playerTwoSymbol = "O" : playerTwoSymbol = "X";
+    cout << "Player 2 will use " << playerTwoSymbol << endl;
+    playersSetup info;
+    info.playerOneSymbol = playerOneSymbol;
+    info.playerTwoSymbol = playerTwoSymbol;
+    return info;
 }
 
-playerResponse playerPrompt(string board[3][3], int player)
+playerResponse playerPrompt(string board[3][3], int player, string playerOneSymbol, string playerTwoSymbol)
 {
-    string character;
+    string character = (player == 1 ? playerOneSymbol : playerTwoSymbol);
     int numberPosition;
+    bool waitingForFirstSymbol = true;
     bool waitingForChar = true;
     bool waitingForPosition = true;
-    while (waitingForChar)
-    {
-        cout << ((player == 1) ? "PLAYER 1 TURN: " : "PLAYER 2 TURN: ") << "Type either the character X or O (capitalized)" << endl;
-        cin >> character;
-        if (character == "X" || character == "O")
-        {
-            break;
-        };
-        cout << "You typed an incorrect character. Try again." << endl;
-        continue;
-    };
+
     while (waitingForPosition)
     {
-        cout << "Choose the number corresponding to the position that you want to place on the board" << character << endl;
+        cout << (player == 1 ? "PLAYER 1 TURN: " : "PLAYER 2 TURN: ") << endl;
+        cout << "Type the number of the position you want to place the " << character << endl;
         string sampleBoardText = "\n";
         for (int row = 0; row < 3; row++)
         {
@@ -221,15 +256,16 @@ int main()
     bool gameRunning = true;
     bool playerOneTurn = true;
 
+    playersSetup gameInfo = gameSetup();
+
     while (gameRunning)
     {
         drawBoard(board);
-        playerResponse response = playerPrompt(board, playerOneTurn ? 1 : 2);
+        playerResponse response = playerPrompt(board, playerOneTurn ? 1 : 2, gameInfo.playerOneSymbol, gameInfo.playerTwoSymbol);
         rowColData rowAndColumn = relateNumToPos(response.position);
         const int boardRow = rowAndColumn.row;
         const int boardColumn = rowAndColumn.column;
         board[boardRow - 1][boardColumn - 1] = response.character;
-
         if (numOfCharacters(board) >= 3)
         {
             for (int row = 0; row < 3; row++)
